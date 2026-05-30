@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.pyc
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# VS Code
+.vscode/
+
+# YOLO models
+*.pt
+*.onnx
+*.engine
+
+# Training outputs
+runs/
+outputs/
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+#user_scenario json
+COM_HID_CLIENT_PYTHON/user_scenario/
+COM_HID_CLIENT_PYTHON/users_schenario/
+*.json

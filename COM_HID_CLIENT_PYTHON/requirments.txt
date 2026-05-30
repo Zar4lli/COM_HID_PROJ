@@ -1,0 +1,4 @@
+ 
+pip install ultralytics[export] opencv-python numpy mss pyserial
+pip install torch torchvision torchaudio
+pip install pyserial
