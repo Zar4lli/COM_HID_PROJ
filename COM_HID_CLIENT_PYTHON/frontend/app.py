@@ -306,6 +306,9 @@ class App(tk.Tk):
         self.cursor_action_desc_var.set(CURSOR_ACTION_DEFS.get(self.cursor_action_var.get().strip(), ""))
 
     def show_log_window(self):
+        if not self.log_window.winfo_exists():
+            self.log_window = LogWindow(self)
+            
         self.log_window.deiconify()
         self.log_window.lift()
         self.log_window.focus_force()

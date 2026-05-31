@@ -11,6 +11,8 @@ class LogWindow(tk.Toplevel):
         self.title("Журнал")
         self.geometry("900x420")
         self.minsize(680, 260)
+        
+        self.protocol("WM_DELETE_WINDOW", self.withdraw)
 
         root = ttk.Frame(self, padding=8)
         root.pack(fill="both", expand=True)
@@ -50,25 +52,93 @@ class HelpWindow(tk.Toplevel):
         txt.pack(fill="both", expand=True, padx=10, pady=10)
         txt.insert(
             "1.0",
-            "Основные команды:\n"
-            "PING\nVERSION\nRELEASE_ALL\nKEY_DOWN CTRL\nKEY_UP CTRL\nKEY_PRESS ENTER\nMOUSE_MOVE 10 5\nMOVE_TO 500 300\n"
-            "MOUSE_CLICK LEFT\nMOUSE_CLICK RIGHT\nMOUSE_PRESS LEFT\nMOUSE_RELEASE LEFT\nMOUSE_PRESS RIGHT\nMOUSE_RELEASE RIGHT\n\n"
-            "YOLO команды:\n"
-            "DETECT_MOVE Worm\nDETECT_CLICK Worm\nDETECT_DOUBLE_CLICK Worm\n"
-            "DETECT_NEAREST_CURSOR Worm\nDETECT_NEAREST_SCREEN Worm\n"
-            "DETECT_MOVE_OFFSET Worm 10 -5\nDETECT_CLICK_OFFSET Worm 0 12\nDETECT_LIST\n\n"
-            "С областью:\n"
-            "DETECT_MOVE Worm 100 100 900 700\n"
-            "DETECT_CLICK Worm 100 100 900 700\n"
-            "DETECT_NEAREST_CURSOR Worm 100 100 900 700\n"
-            "DETECT_NEAREST_SCREEN Worm 100 100 900 700\n"
-            "DETECT_MOVE_OFFSET Worm 10 -5 100 100 900 700\n"
-            "DETECT_CLICK_OFFSET Worm 0 12 100 100 900 700\n"
+            "КОМАНДЫ УСТРОЙСТВА\n\n"
+
+            "PING\n"
+            "Проверка связи. Ответ: PONG\n\n"
+
+            "VERSION\n"
+            "Показать версию прошивки.\n\n"
+
+            "RELEASE_ALL\n"
+            "Отпустить все зажатые клавиши и кнопки мыши. Полезно, если что-то зависло.\n\n"
+
+            "KEY_DOWN CTRL\n"
+            "Зажать клавишу. Например CTRL, SHIFT, ALT, W, A, ENTER.\n\n"
+
+            "KEY_UP CTRL\n"
+            "Отпустить клавишу. Это НЕ KEY_RELEASE. Правильная команда именно KEY_UP.\n\n"
+
+            "KEY_PRESS ENTER\n"
+            "Нажать и отпустить клавишу.\n\n"
+
+            "HOTKEY CTRL C\n"
+            "Нажать комбинацию: зажать CTRL, нажать C, отпустить CTRL.\n\n"
+
+            "TYPE_TEXT hello\n"
+            "Напечатать текст через клавиатуру.\n\n"
+
+            "MOUSE_MOVE 10 5\n"
+            "Сдвинуть мышь относительно текущей позиции. X/Y не абсолютные, а относительные.\n\n"
+
+            "MOUSE_SCROLL -3\n"
+            "Прокрутка колеса мыши. Отрицательное значение — вниз, положительное — вверх.\n\n"
+
+            "MOUSE_CLICK LEFT\n"
+            "Клик мышью. Кнопки: LEFT, RIGHT, MIDDLE.\n\n"
+
+            "MOUSE_PRESS LEFT\n"
+            "Зажать кнопку мыши.\n\n"
+
+            "MOUSE_RELEASE LEFT\n"
+            "Отпустить кнопку мыши.\n\n"
+
+            "КЛИЕНТСКИЕ КОМАНДЫ\n\n"
+
+            "MOVE_TO 500 300\n"
+            "Навести курсор в абсолютные координаты экрана. Это делает Python-клиент через серию MOUSE_MOVE.\n\n"
+
+            "DETECT_LIST\n"
+            "Показать в журнале найденные YOLO-объекты.\n\n"
+
+            "DETECT_MOVE Fish\n"
+            "Найти объект класса Fish и навести курсор в центр bbox.\n\n"
+
+            "DETECT_CLICK Fish\n"
+            "Найти объект Fish, навести курсор и кликнуть.\n\n"
+
+            "DETECT_DOUBLE_CLICK Fish\n"
+            "Найти объект Fish и сделать двойной клик.\n\n"
+
+            "DETECT_NEAREST_CURSOR Fish\n"
+            "Выбрать объект Fish, ближайший к текущему курсору.\n\n"
+
+            "DETECT_NEAREST_SCREEN Fish\n"
+            "Выбрать объект Fish, ближайший к центру экрана или заданной области.\n\n"
+
+            "DETECT_MOVE_OFFSET Fish 10 -5\n"
+            "Навести курсор не в центр объекта, а со смещением dx/dy.\n\n"
+
+            "DETECT_CLICK_OFFSET Fish 0 12\n"
+            "Кликнуть по объекту со смещением от центра bbox.\n\n"
+
+            "ОБЛАСТЬ ДЕТЕКЦИИ\n\n"
+
+            "К YOLO-командам можно добавить область:\n"
+            "DETECT_MOVE Fish 100 100 900 700\n"
+            "DETECT_CLICK Fish 100 100 900 700\n"
             "DETECT_LIST 100 100 900 700\n\n"
-            "Важно:\n"
-            "- область работает как фильтр: сначала ищем на всём мониторе, потом отсекаем bbox по центру внутри области.\n"
-            "- если включена галочка 'Если нет детекта — прервать', текущий набор шагов остановится, и при включённой очереди может открыться следующий скрипт.\n"
-            "- очередь папки запускает следующий .json по порядку.\n"
+
+            "Формат области: X1 Y1 X2 Y2.\n"
+            "Область работает как фильтр: сначала YOLO ищет объекты на экране, потом клиент оставляет только те, чей центр находится внутри области.\n\n"
+
+            "ВАЖНО\n\n"
+
+            "- KEY_RELEASE не существует. Используй KEY_UP.\n"
+            "- MOUSE_MOVE использует относительное смещение, а MOVE_TO — абсолютные координаты.\n"
+            "- DETECT_* команды выполняются клиентом, а не прошивкой устройства.\n"
+            "- Для DETECT_* нужна загруженная YOLO-модель с нужными классами.\n"
+            "- Если включена галочка 'Если нет детекта — прервать', макрос остановится при NOT_FOUND.\n"
         )
         txt.configure(state="disabled")
 
