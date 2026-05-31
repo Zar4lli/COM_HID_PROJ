@@ -32,7 +32,7 @@ Desktop.ini
 .DS_Store
 Thumbs.db
 
-#user_scenario json
+# user_scenario json
 COM_HID_CLIENT_PYTHON/user_scenario/
 COM_HID_CLIENT_PYTHON/users_schenario/
 *.json

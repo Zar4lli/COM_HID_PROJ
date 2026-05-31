@@ -1,0 +1,8 @@
+pyserial
+opencv-python
+numpy
+mss
+ultralytics
+torch
+Pillow
+keyboard
